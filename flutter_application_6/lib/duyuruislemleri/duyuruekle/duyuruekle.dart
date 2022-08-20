@@ -1,20 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_6/homepage.dart';
-
 import '../duyurugiris.dart';
 
 class DuyuruEklePage extends StatefulWidget {
+ 
   const DuyuruEklePage({Key key}) : super(key: key);
 
   @override
   State<DuyuruEklePage> createState() => _DuyuruEklePageState();
+
+
+
+
+
+  
+
 }
 
 class _DuyuruEklePageState extends State<DuyuruEklePage> {
+  final _firestore = FirebaseFirestore.instance;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController duyuruController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+     CollectionReference moviesRef = _firestore.collection('movies');
     Size size = MediaQuery.of(context).size;
     int _currentIndex = 0;
     return Scaffold(
@@ -54,6 +66,7 @@ class _DuyuruEklePageState extends State<DuyuruEklePage> {
               width: size.width * 0.65,
               height: size.height * 0.08,
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Duyuru Başlığı',
@@ -71,6 +84,7 @@ class _DuyuruEklePageState extends State<DuyuruEklePage> {
               width: size.width * 0.65,
               height: size.height * 0.25,
               child: TextField(
+                controller: duyuruController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Duyuru Metni',
@@ -88,11 +102,21 @@ class _DuyuruEklePageState extends State<DuyuruEklePage> {
                   borderRadius: BorderRadius.circular(20)),
               width: size.width * 0.25,
               height: size.height * 0.08,
-              child:  TextButton(onPressed: () => Navigator.pushReplacement(
-                          //Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DuyuruIslemleriPage())),
+              child:  TextButton(onPressed:() async{
+
+                print(nameController.text);
+                print(duyuruController.text);
+
+
+                Map<String, dynamic> movieData = {
+            'name': nameController.text,
+            'duyuru': duyuruController.text
+            
+              
+              };
+              await moviesRef.doc(nameController.text).set({'kayıt': '$duyuruController'});
+              },
+              
                   child: Text(
                     "Yayınla",
                     style: TextStyle(fontSize: 20, color: Colors.black),
@@ -100,8 +124,8 @@ class _DuyuruEklePageState extends State<DuyuruEklePage> {
                 ),
             ),
           ],
-        ),
-      ),
-    );
+        )));
+      
+    
   }
 }

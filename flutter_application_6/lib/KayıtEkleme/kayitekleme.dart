@@ -2,6 +2,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_6/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class KayitEklemePage extends StatefulWidget {
   const KayitEklemePage({Key key}) : super(key: key);
@@ -256,3 +258,4 @@ class _KayitEklemePageState extends State<KayitEklemePage> {
     );
   }
 }
+

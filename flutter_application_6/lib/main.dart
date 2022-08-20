@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_6/Kay%C4%B1tEkleme/kayitekleme.dart';
-import 'package:flutter_application_6/duyuruislemleri/duyuruekle/duyuruekle.dart';
-import 'package:flutter_application_6/duyuruislemleri/duyurugiris.dart';
+import 'package:flutter_application_6/homepage.dart';
+import 'package:flutter_application_6/login.dart';
 
-import 'homepage.dart';
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  );
+   bool loggedIn = FirebaseAuth.instance.currentUser !=null;
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home:  loggedIn ?HomePage():SignInScreen(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
